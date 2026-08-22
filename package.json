@@ -1,7 +1,7 @@
 {
   "name": "bot-protecao-discord",
   "version": "1.0.0",
-  "description": "Bot de protecao e moderacao",
+  "description": "Bot de protecao e moderacao para Discord",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
