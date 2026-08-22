@@ -1,0 +1,21 @@
+{
+  "name": "bot-protecao-discord",
+  "version": "1.0.0",
+  "description": "Bot de proteção, anti-link, anti-spam, sistema de warn e moderacao",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "moderation",
+    "antilink",
+    "antispam"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^14.14.1"
+  }
+}
