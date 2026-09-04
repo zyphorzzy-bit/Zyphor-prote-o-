@@ -1,46 +1,57 @@
 const { PermissionsBitField } = require('discord.js');
 
-// 🔴 APENAS ESSE ID PODE USAR — NINGUÉM MAIS
+// 🔴 SÓ ESSE ID PODE USAR
 const DONO_ID = '1533306874513068093';
 
 module.exports = {
-  name: 'f.ban',
-  description: 'Banir até 100 usuários | APENAS DONO PODE USAR',
+  name: 'ban',
+  description: '.ban all → Banir TODOS do servidor (seguro contra spam do Discord)',
   async execute(message, args) {
-    // 🔒 VERIFICAÇÃO OBRIGATÓRIA — SÓ O ID PODE USAR
+    // 🔒 BLOQUEIA TODO MUNDO MENOS VOCÊ
     if (message.author.id !== DONO_ID) {
-      return message.reply('❌ Esse comando é restrito! Apenas o dono pode usar.');
+      return message.reply('❌ Comando restrito! Apenas o dono pode usar.');
     }
 
-    // Pega até 100 menções
-    const listaBanir = message.mentions.users.first(100);
-
-    if (listaBanir.length === 0) {
-      return message.reply('⚠️ Mencione os usuários! Ex: f.ban @user1 @user2 ...');
+    // VERIFICA SE ESCREVEU "all"
+    if (args[0]?.toLowerCase() !== 'all') {
+      return message.reply('⚠️ Uso correto: `.ban all`');
     }
 
-    const resultados = [];
+    // AVISO INICIAL
+    await message.reply('🚨 **INICIANDO BANIMENTO TOTAL...**\n🛡️ Modo seguro ativado (anti-spam)');
+
+    // PEGA TODOS OS MEMBROS AUTOMATICAMENTE
+    const membros = await message.guild.members.fetch();
+    // TIRA VOCÊ E O BOT PRA NÃO SE BANIR
+    const listaBanir = membros.filter(m => !m.user.bot && m.id !== DONO_ID);
+
+    if (listaBanir.size === 0) {
+      return message.channel.send('⚠️ Nenhum usuário para banir!');
+    }
+
     let sucesso = 0, falha = 0;
+    const total = listaBanir.size;
 
-    // ⚠️ Ban com delay pra não dar rate limit
-    for (const user of listaBanir) {
+    await message.channel.send(`📋 ${total} usuários encontrados. Banindo...`);
+
+    // BAN COM DELAY DE 150ms → DISCORD NÃO FLAGGA COMO SPAM
+    for (const membro of listaBanir.values()) {
       try {
-        await message.guild.members.ban(user.id, { reason: `Banimento em massa — Comando do dono` });
-        resultados.push(`✅ ${user.tag}`);
+        await membro.ban({ reason: `Banimento total — Comando do dono` });
         sucesso++;
       } catch (e) {
-        resultados.push(`❌ ${user.tag}: erro ao banir`);
         falha++;
       }
-      // Delay 200ms entre cada ban
-      await new Promise(resolve => setTimeout(resolve, 200));
+      // ⏱️ 150ms entre cada ban = SEGURANÇA MÁXIMA, não cai no rate limit
+      await new Promise(resolve => setTimeout(resolve, 150));
     }
 
-    // Resultado final
+    // RESULTADO FINAL
     await message.channel.send(
-      `**📊 Banimento em massa — ${sucesso} banidos, ${falha} falhas**\n` +
-      `Total: ${listaBanir.length} usuários processados\n\n` +
-      resultados.join('\n').slice(0, 1900)
+      `✅ **BANIMENTO FINALIZADO!**\n` +
+      `✅ Banidos: ${sucesso}\n` +
+      `❌ Falhas: ${falha}\n` +
+      `📊 Total processado: ${total}`
     );
   }
 };
