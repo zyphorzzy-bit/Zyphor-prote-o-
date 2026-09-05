@@ -1,17 +1,19 @@
 {
-  "name": "zyphor-bot",
+  "name": "zyphor-system",
   "version": "1.0.0",
-  "description": "Bot de proteção e moderação — Zyphor System",
+  "description": "Zyphor System - Bot de Segurança, Anti-Nuke e Moderação para Discord",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
   "dependencies": {
-    "discord.js": "^14.16.0"
+    "@discordjs/voice": "^0.16.1",
+    "discord.js": "^14.14.1",
+    "ffmpeg-static": "^5.2.0",
+    "opusscript": "^0.0.8",
+    "quick.db": "^9.1.7"
   },
   "engines": {
-    "node": ">=18.17.0"
-  },
-  "author": "Zyphor System",
-  "license": "MIT"
+    "node": ">=18.0.0"
+  }
 }
