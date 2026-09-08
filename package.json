@@ -1,19 +1,21 @@
 {
   "name": "zyphor-system",
   "version": "1.0.0",
-  "description": "Zyphor System - Bot de Segurança, Anti-Nuke e Moderação para Discord",
+  "description": "Bot de Segurança e Gerenciamento Zyphor System",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
+    "@discordjs/rest": "^2.2.0",
     "@discordjs/voice": "^0.16.1",
+    "discord-api-types": "^0.37.67",
     "discord.js": "^14.14.1",
-    "ffmpeg-static": "^5.2.0",
-    "opusscript": "^0.0.8",
-    "quick.db": "^9.1.7"
-  },
-  "engines": {
-    "node": ">=18.0.0"
+    "generate-unicons": "^0.0.1",
+    "quick.db": "^9.1.7",
+    "sodium-native": "^4.0.8"
   }
 }
